@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getGuestBySlug } from '@/lib/guests';
 
 /**
@@ -6,7 +6,6 @@ import { getGuestBySlug } from '@/lib/guests';
  * Obtiene información de un invitado por slug (para personalización de invitación)
  */
 export async function GET(
-  request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
