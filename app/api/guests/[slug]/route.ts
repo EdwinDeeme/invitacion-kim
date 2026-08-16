@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getGuestBySlug } from '@/lib/guests';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/guests/:slug
  * Obtiene información de un invitado por slug (para personalización de invitación)
@@ -10,7 +13,16 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    const guest = await getGuestBySlug(params.slug);
+    const slug = params?.slug;
+
+    if (!slug) {
+      return NextResponse.json(
+        { success: false, error: 'Slug requerido' },
+        { status: 400 }
+      );
+    }
+
+    const guest = await getGuestBySlug(slug);
 
     if (!guest) {
       return NextResponse.json(
