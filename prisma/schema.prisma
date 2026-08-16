@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guest {
+  id        String   @id @default(cuid())
+  slug      String   @unique // "helen-andres"
+  name      String   // "Helen y Andrés"
+  numberOfGuests Int   @default(1)
+  guestType String   @default("individual") // "individual" | "couple" | "family" | "group"
+  status    String   @default("pending") // "pending" | "confirmed" | "declined"
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relación con RSVP
+  rsvp      RSVP?
+
+  @@index([slug])
+}
+
+model RSVP {
+  id        String   @id @default(cuid())
+  guestId   String   @unique
+  guest     Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  
+  attending Boolean?
+  numberOfGuestsAttending Int?
+  guestName String? // Nombre del principal que confirma
+  
+  submittedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([guestId])
+}
