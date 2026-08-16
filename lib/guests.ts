@@ -1,4 +1,4 @@
-import { prisma } from './db';
+import { getPrismaClient } from './db';
 import type { Guest } from '@prisma/client';
 
 /**
@@ -6,6 +6,7 @@ import type { Guest } from '@prisma/client';
  */
 export async function getGuestBySlug(slug: string): Promise<Guest | null> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.guest.findUnique({
       where: { slug },
     });
@@ -20,6 +21,7 @@ export async function getGuestBySlug(slug: string): Promise<Guest | null> {
  */
 export async function getGuestById(id: string): Promise<Guest | null> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.guest.findUnique({
       where: { id },
     });
@@ -34,6 +36,7 @@ export async function getGuestById(id: string): Promise<Guest | null> {
  */
 export async function getAllGuests(): Promise<Guest[]> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.guest.findMany({
       orderBy: { createdAt: 'desc' },
     });
@@ -53,6 +56,7 @@ export async function createGuest(data: {
   guestType: string;
 }): Promise<Guest | null> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.guest.create({
       data,
     });
@@ -70,6 +74,7 @@ export async function updateGuest(
   data: Partial<Guest>
 ): Promise<Guest | null> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.guest.update({
       where: { id },
       data,
@@ -85,6 +90,7 @@ export async function updateGuest(
  */
 export async function deleteGuest(id: string): Promise<boolean> {
   try {
+    const prisma = getPrismaClient();
     await prisma.guest.delete({
       where: { id },
     });
@@ -107,6 +113,7 @@ export async function getRSVPStats(): Promise<{
   guestsConfirmed: number;
 }> {
   try {
+    const prisma = getPrismaClient();
     const guests = await prisma.guest.findMany();
     const rsvps = await prisma.rSVP.findMany();
 

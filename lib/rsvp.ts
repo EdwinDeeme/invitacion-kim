@@ -1,4 +1,4 @@
-import { prisma } from './db';
+import { getPrismaClient } from './db';
 import type { RSVP } from '@prisma/client';
 
 /**
@@ -6,6 +6,7 @@ import type { RSVP } from '@prisma/client';
  */
 export async function getRSVPByGuestId(guestId: string): Promise<RSVP | null> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.rSVP.findUnique({
       where: { guestId },
       include: { guest: true },
@@ -26,6 +27,7 @@ export async function submitRSVP(data: {
   guestName?: string;
 }): Promise<RSVP | null> {
   try {
+    const prisma = getPrismaClient();
     // Verificar que el invitado existe
     const guest = await prisma.guest.findUnique({
       where: { id: data.guestId },
@@ -73,6 +75,7 @@ export async function submitRSVP(data: {
  */
 export async function getConfirmedRSVPs(): Promise<RSVP[]> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.rSVP.findMany({
       where: { attending: true },
       include: { guest: true },
@@ -89,6 +92,7 @@ export async function getConfirmedRSVPs(): Promise<RSVP[]> {
  */
 export async function getDeclinedRSVPs(): Promise<RSVP[]> {
   try {
+    const prisma = getPrismaClient();
     return await prisma.rSVP.findMany({
       where: { attending: false },
       include: { guest: true },
