@@ -46,7 +46,7 @@ export async function GET(
 
 /**
  * PUT /api/guests/by-id/:id
- * Actualiza un invitado (requiere autenticación)
+ * Actualiza un invitado
  */
 export async function PUT(
   request: NextRequest,
@@ -59,16 +59,6 @@ export async function PUT(
       return NextResponse.json(
         { success: false, error: 'ID requerido' },
         { status: 400 }
-      );
-    }
-
-    const adminPassword = request.headers.get('x-admin-password');
-    const correctPassword = process.env.ADMIN_PASSWORD;
-
-    if (!correctPassword || adminPassword !== correctPassword) {
-      return NextResponse.json(
-        { success: false, error: 'No autorizado' },
-        { status: 401 }
       );
     }
 
@@ -103,10 +93,10 @@ export async function PUT(
 
 /**
  * DELETE /api/guests/by-id/:id
- * Elimina un invitado (requiere autenticación)
+ * Elimina un invitado
  */
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -116,16 +106,6 @@ export async function DELETE(
       return NextResponse.json(
         { success: false, error: 'ID requerido' },
         { status: 400 }
-      );
-    }
-
-    const adminPassword = request.headers.get('x-admin-password');
-    const correctPassword = process.env.ADMIN_PASSWORD;
-
-    if (!correctPassword || adminPassword !== correctPassword) {
-      return NextResponse.json(
-        { success: false, error: 'No autorizado' },
-        { status: 401 }
       );
     }
 

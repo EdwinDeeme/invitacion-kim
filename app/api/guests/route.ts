@@ -27,21 +27,10 @@ export async function GET(_request: NextRequest) {
 
 /**
  * POST /api/guests
- * Crea un nuevo invitado (requiere autenticación)
+ * Crea un nuevo invitado
  */
 export async function POST(request: NextRequest) {
   try {
-    // Verificar autenticación (password en header)
-    const adminPassword = request.headers.get('x-admin-password');
-    const correctPassword = process.env.ADMIN_PASSWORD;
-
-    if (!correctPassword || adminPassword !== correctPassword) {
-      return NextResponse.json(
-        { success: false, error: 'No autorizado' },
-        { status: 401 }
-      );
-    }
-
     const body = await request.json();
 
     if (!body.name || !body.numberOfGuests) {
