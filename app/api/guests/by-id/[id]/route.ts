@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getGuestById, updateGuest, deleteGuest } from '@/lib/guests';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/guests/by-id/:id
  * Obtiene un invitado por ID
@@ -10,7 +13,16 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const guest = await getGuestById(params.id);
+    const id = params?.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'ID requerido' },
+        { status: 400 }
+      );
+    }
+
+    const guest = await getGuestById(id);
 
     if (!guest) {
       return NextResponse.json(
@@ -41,6 +53,15 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const id = params?.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'ID requerido' },
+        { status: 400 }
+      );
+    }
+
     const adminPassword = request.headers.get('x-admin-password');
     const correctPassword = process.env.ADMIN_PASSWORD;
 
@@ -53,7 +74,7 @@ export async function PUT(
 
     const body = await request.json();
 
-    const guest = await updateGuest(params.id, {
+    const guest = await updateGuest(id, {
       name: body.name,
       numberOfGuests: body.numberOfGuests,
       guestType: body.guestType,
@@ -89,6 +110,15 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const id = params?.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'ID requerido' },
+        { status: 400 }
+      );
+    }
+
     const adminPassword = request.headers.get('x-admin-password');
     const correctPassword = process.env.ADMIN_PASSWORD;
 
@@ -99,7 +129,7 @@ export async function DELETE(
       );
     }
 
-    const success = await deleteGuest(params.id);
+    const success = await deleteGuest(id);
 
     if (!success) {
       return NextResponse.json(
