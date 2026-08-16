@@ -1,5 +1,3 @@
-'use server';
-
 import { prisma } from './db';
 import type { Guest } from '@prisma/client';
 
