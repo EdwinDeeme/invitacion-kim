@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRSVPStats } from '@/lib/guests';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/guests/stats
  * Obtiene estadísticas de RSVP
