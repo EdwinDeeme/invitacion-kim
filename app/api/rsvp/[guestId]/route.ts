@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitRSVP, getRSVPByGuestId } from '@/lib/rsvp';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/rsvp/:guestId
  * Obtiene el estado RSVP de un invitado
@@ -10,7 +13,16 @@ export async function GET(
   { params }: { params: { guestId: string } }
 ) {
   try {
-    const rsvp = await getRSVPByGuestId(params.guestId);
+    const guestId = params?.guestId;
+
+    if (!guestId) {
+      return NextResponse.json(
+        { success: false, error: 'guestId requerido' },
+        { status: 400 }
+      );
+    }
+
+    const rsvp = await getRSVPByGuestId(guestId);
 
     if (!rsvp) {
       return NextResponse.json(
@@ -40,10 +52,19 @@ export async function POST(
   { params }: { params: { guestId: string } }
 ) {
   try {
+    const guestId = params?.guestId;
+
+    if (!guestId) {
+      return NextResponse.json(
+        { success: false, error: 'guestId requerido' },
+        { status: 400 }
+      );
+    }
+
     const body = await request.json();
 
     const rsvpData = {
-      guestId: params.guestId,
+      guestId,
       attending: body.attending === true,
       numberOfGuestsAttending: body.numberOfGuestsAttending || 0,
       guestName: body.guestName || null,
