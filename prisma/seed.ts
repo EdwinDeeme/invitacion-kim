@@ -7,7 +7,7 @@ async function main() {
   console.log('🌱 Sembrando base de datos...');
 
   // Limpiar datos existentes
-  await prisma.rsvp.deleteMany();
+  await prisma.rSVP.deleteMany();
   await prisma.guest.deleteMany();
 
   // Agregar invitados de ejemplo
@@ -23,7 +23,7 @@ async function main() {
     const slug = generateSlug(guest.name);
     const guestType = determineGuestType(guest.numberOfGuests);
 
-    const createdGuest = await prisma.guest.create({
+    await prisma.guest.create({
       data: {
         slug,
         name: guest.name,

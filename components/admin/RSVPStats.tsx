@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { fadeInUp, containerStagger, itemStagger } from '@/lib/animations';
+import { containerStagger, itemStagger } from '@/lib/animations';
 
 interface RSVPStatsProps {
   total: number;
@@ -35,9 +35,9 @@ export default function RSVPStats({
   return (
     <motion.div
       className="space-y-6"
-      variants={containerStagger}
-      initial="hidden"
-      animate="visible"
+      variants={containerStagger.variants}
+      initial={containerStagger.initial}
+      animate={containerStagger.animate}
     >
       {/* Encabezado */}
       <div className="mb-8">
@@ -51,7 +51,7 @@ export default function RSVPStats({
 
       {/* Grid de estadísticas */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, index) => (
+        {stats.map((stat) => (
           <motion.div
             key={stat.label}
             className="bg-magic-navy/50 border border-magic-gold/30 rounded-lg p-6 text-center"

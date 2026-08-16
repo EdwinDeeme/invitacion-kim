@@ -8,7 +8,7 @@ import type { RSVP } from '@prisma/client';
  */
 export async function getRSVPByGuestId(guestId: string): Promise<RSVP | null> {
   try {
-    return await prisma.rsvp.findUnique({
+    return await prisma.rSVP.findUnique({
       where: { guestId },
       include: { guest: true },
     });
@@ -38,13 +38,13 @@ export async function submitRSVP(data: {
     }
 
     // Buscar RSVP existente
-    const existingRSVP = await prisma.rsvp.findUnique({
+    const existingRSVP = await prisma.rSVP.findUnique({
       where: { guestId: data.guestId },
     });
 
     if (existingRSVP) {
       // Actualizar RSVP existente
-      return await prisma.rsvp.update({
+      return await prisma.rSVP.update({
         where: { guestId: data.guestId },
         data: {
           attending: data.attending,
@@ -55,7 +55,7 @@ export async function submitRSVP(data: {
       });
     } else {
       // Crear nuevo RSVP
-      return await prisma.rsvp.create({
+      return await prisma.rSVP.create({
         data: {
           guestId: data.guestId,
           attending: data.attending,
@@ -75,7 +75,7 @@ export async function submitRSVP(data: {
  */
 export async function getConfirmedRSVPs(): Promise<RSVP[]> {
   try {
-    return await prisma.rsvp.findMany({
+    return await prisma.rSVP.findMany({
       where: { attending: true },
       include: { guest: true },
       orderBy: { submittedAt: 'desc' },
@@ -91,7 +91,7 @@ export async function getConfirmedRSVPs(): Promise<RSVP[]> {
  */
 export async function getDeclinedRSVPs(): Promise<RSVP[]> {
   try {
-    return await prisma.rsvp.findMany({
+    return await prisma.rSVP.findMany({
       where: { attending: false },
       include: { guest: true },
       orderBy: { submittedAt: 'desc' },

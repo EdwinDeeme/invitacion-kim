@@ -1,7 +1,7 @@
 'use server';
 
 import { prisma } from './db';
-import type { Guest, RSVP } from '@prisma/client';
+import type { Guest } from '@prisma/client';
 
 /**
  * Obtiene un invitado por slug
@@ -110,7 +110,7 @@ export async function getRSVPStats(): Promise<{
 }> {
   try {
     const guests = await prisma.guest.findMany();
-    const rsvps = await prisma.rsvp.findMany();
+    const rsvps = await prisma.rSVP.findMany();
 
     const confirmed = rsvps.filter((r) => r.attending === true).length;
     const declined = rsvps.filter((r) => r.attending === false).length;

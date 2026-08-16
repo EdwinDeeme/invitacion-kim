@@ -1,8 +1,9 @@
-import { redirect, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getGuestBySlug } from '@/lib/guests';
 import InvitationExperience from '@/components/invitation/InvitationExperience';
 import { eventConfig } from '@/data/eventConfig';
+import type { GuestType, GuestStatus } from '@/types';
 
 interface InvitationPageProps {
   params: {
@@ -54,9 +55,15 @@ export default async function InvitationPage({ params }: InvitationPageProps) {
     notFound();
   }
 
+  const typedGuest = {
+    ...guest,
+    guestType: guest.guestType as GuestType,
+    status: guest.status as GuestStatus,
+  };
+
   return (
     <div>
-      <InvitationExperience guest={guest} />
+      <InvitationExperience guest={typedGuest} />
     </div>
   );
 }

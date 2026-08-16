@@ -5,7 +5,7 @@ import { getAllGuests, createGuest } from '@/lib/guests';
  * GET /api/guests
  * Lista todos los invitados
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const guests = await getAllGuests();
 

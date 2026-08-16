@@ -6,7 +6,7 @@ import { submitRSVP, getRSVPByGuestId } from '@/lib/rsvp';
  * Obtiene el estado RSVP de un invitado
  */
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { guestId: string } }
 ) {
   try {

@@ -5,7 +5,7 @@ import { getRSVPStats } from '@/lib/guests';
  * GET /api/guests/stats
  * Obtiene estadísticas de RSVP
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const stats = await getRSVPStats();
 
