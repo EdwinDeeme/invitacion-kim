@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllGuests, createGuest, getRSVPStats } from '@/lib/guests';
+import { getAllGuests, createGuest } from '@/lib/guests';
 
 /**
  * GET /api/guests
@@ -78,22 +78,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/**
- * GET /api/guests/stats
- * Obtiene estadísticas de RSVP
- */
-export async function getStats() {
-  try {
-    const stats = await getRSVPStats();
-    return NextResponse.json({
-      success: true,
-      data: stats,
-    });
-  } catch (error) {
-    console.error('Error fetching stats:', error);
-    return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
-      { status: 500 }
-    );
-  }
-}
