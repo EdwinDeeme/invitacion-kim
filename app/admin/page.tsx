@@ -14,9 +14,10 @@ import { generateSlug, determineGuestType } from '@/lib/utils';
  * Gestión de invitados, RSVP y configuración
  */
 export default function AdminPage() {
-  const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'contraseña_simple';
+  const configuredAdminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '';
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
+  const [sessionAdminPassword, setSessionAdminPassword] = useState('');
   const [guests, setGuests] = useState<Guest[]>([]);
   const [stats, setStats] = useState({
     total: 0,
@@ -34,13 +35,23 @@ export default function AdminPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (password === adminPassword) {
+    if (!password.trim()) {
+      setAuthError('Debes ingresar una contraseña');
+      return;
+    }
+
+    // Si existe contraseña pública configurada, se usa como validación temprana de UX.
+    if (configuredAdminPassword && password !== configuredAdminPassword) {
+      setAuthError('Contraseña incorrecta');
+      return;
+    }
+
+    if (password) {
       setIsAuthenticated(true);
+      setSessionAdminPassword(password);
       setPassword('');
       setAuthError('');
       loadGuests();
-    } else {
-      setAuthError('Contraseña incorrecta');
     }
   };
 
@@ -54,6 +65,10 @@ export default function AdminPage() {
         const data = await response.json();
         setGuests(data.data || []);
         loadStats();
+      } else if (response.status === 401) {
+        setIsAuthenticated(false);
+        setSessionAdminPassword('');
+        setAuthError('Tu sesión expiro. Ingresa la contraseña nuevamente.');
       }
     } catch (error) {
       console.error('Error loading guests:', error);
@@ -91,7 +106,7 @@ export default function AdminPage() {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'x-admin-password': adminPassword,
+          'x-admin-password': sessionAdminPassword,
         },
         body: JSON.stringify({
           name: data.name,
@@ -102,6 +117,11 @@ export default function AdminPage() {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          setIsAuthenticated(false);
+          setSessionAdminPassword('');
+          setAuthError('Contraseña de administrador inválida o desactualizada.');
+        }
         throw new Error('Error al guardar invitado');
       }
 
@@ -119,11 +139,16 @@ export default function AdminPage() {
       const response = await fetch(`/api/guests/by-id/${guestId}`, {
         method: 'DELETE',
         headers: {
-          'x-admin-password': adminPassword,
+          'x-admin-password': sessionAdminPassword,
         },
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          setIsAuthenticated(false);
+          setSessionAdminPassword('');
+          setAuthError('Contraseña de administrador inválida o desactualizada.');
+        }
         throw new Error('Error al eliminar invitado');
       }
 
