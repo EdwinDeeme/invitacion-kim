@@ -79,7 +79,8 @@ export async function createGuest(data: {
       console.log(`   Nuevo slug: "${uniqueSlug}"`);
       
       try {
-        const result = await prisma.guest.create({
+        const prismRetry = getPrismaClient();
+        const result = await prismRetry.guest.create({
           data: {
             ...data,
             slug: uniqueSlug,
