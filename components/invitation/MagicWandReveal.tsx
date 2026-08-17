@@ -120,7 +120,7 @@ export default function MagicWandReveal({ guestName, numberOfGuests, onContinue 
 
               <div className="pt-1">
                 <button onClick={onContinue} className="antique-button flex items-center justify-center leading-none">
-                  Continuar ritual de invitacion
+                  Toca para continuar el ritual de invitacion
                 </button>
               </div>
             </motion.div>

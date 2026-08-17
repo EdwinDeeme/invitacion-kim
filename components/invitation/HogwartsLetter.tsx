@@ -70,7 +70,7 @@ export default function HogwartsLetter({ guestName, onContinue }: HogwartsLetter
 
           <div className="mt-7 flex justify-center">
             <button onClick={handleOpen} className="antique-button flex items-center justify-center leading-none">
-              Desplegar pergamino interior
+              Toca aquí para desplegar pergamino interior
             </button>
           </div>
         </motion.div>

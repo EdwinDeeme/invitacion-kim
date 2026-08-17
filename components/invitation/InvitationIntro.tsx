@@ -88,7 +88,7 @@ export default function InvitationIntro({
             Un sobre sellado aguarda en la penumbra.
           </p>
           <button onClick={openEnvelope} className="antique-button">
-            Romper sello y abrir carta
+            Toca aquì para romper el sello y abrir carta
           </button>
         </motion.div>
       </motion.div>
