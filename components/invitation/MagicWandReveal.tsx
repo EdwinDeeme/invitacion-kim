@@ -20,8 +20,8 @@ export default function MagicWandReveal({ guestName, numberOfGuests, onContinue 
     () => [
       `${isSingular ? 'Estimado' : 'Estimados'} ${guestName}:`,
       isSingular
-        ? 'Tengo el enorme placer de informarte que has sido convocado a una celebracion reservada.'
-        : 'Tenemos el enorme placer de informarles que han sido convocados a una celebracion reservada.',
+        ? 'Tengo el enorme placer de informarte que has sido convocado a una celebracion reservada para festejar el cumpleaños de'
+        : 'Tenemos el enorme placer de informarles que han sido convocados a una celebracion reservada para festejar el cumpleaños de',
       `${eventConfig.celebrant.name}`,
       isSingular
         ? 'Tu invitacion ha sido registrada para este gran encuentro.'
