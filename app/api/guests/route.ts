@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllGuests, createGuest } from '@/lib/guests';
+import { generateSlug } from '@/lib/utils';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -33,17 +34,35 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    if (!body.name || !body.numberOfGuests) {
+    // Validar datos requeridos
+    const name = body.name?.trim() || '';
+    const numberOfGuests = parseInt(body.numberOfGuests, 10) || 0;
+    
+    if (!name || numberOfGuests < 1) {
       return NextResponse.json(
         { success: false, error: 'Nombre y número de invitados son requeridos' },
         { status: 400 }
       );
     }
 
+    // Slug: usar el proporcionado o generar uno
+    let slug = body.slug?.trim() || '';
+    if (!slug) {
+      slug = generateSlug(name);
+      console.log(`📝 Slug generado automáticamente: "${slug}"`);
+    }
+
+    console.log('📤 POST /api/guests - Datos validados:', {
+      name,
+      slug,
+      numberOfGuests,
+      guestType: body.guestType || 'individual',
+    });
+
     const guest = await createGuest({
-      slug: body.slug,
-      name: body.name,
-      numberOfGuests: body.numberOfGuests,
+      slug,
+      name,
+      numberOfGuests,
       guestType: body.guestType || 'individual',
     });
 

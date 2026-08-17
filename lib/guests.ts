@@ -58,6 +58,7 @@ export async function createGuest(data: {
   try {
     const prisma = getPrismaClient();
     console.log('🚀 Creating guest with data:', data);
+    
     const result = await prisma.guest.create({
       data,
     });
@@ -65,11 +66,34 @@ export async function createGuest(data: {
     return result;
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
+    const err = error as any;
+    
     console.error('❌ Error creating guest:', msg);
-    if (error instanceof Error) {
-      console.error('   Code:', (error as any).code);
-      console.error('   Meta:', (error as any).meta);
+    if (err.code) console.error('   Prisma Code:', err.code);
+    if (err.meta) console.error('   Meta:', err.meta);
+
+    // Si es error de unique constraint en slug, retry con slug único
+    if (err.code === 'P2002' && err.meta?.target?.includes('slug')) {
+      console.log('🔄 Slug duplicado. Generando slug único...');
+      const uniqueSlug = `${data.slug}-${Date.now()}`;
+      console.log(`   Nuevo slug: "${uniqueSlug}"`);
+      
+      try {
+        const result = await prisma.guest.create({
+          data: {
+            ...data,
+            slug: uniqueSlug,
+          },
+        });
+        console.log('✅ Guest created with unique slug:', result.id);
+        return result;
+      } catch (retryError) {
+        const retryMsg = retryError instanceof Error ? retryError.message : String(retryError);
+        console.error('❌ Retry failed:', retryMsg);
+        return null;
+      }
     }
+
     return null;
   }
 }
