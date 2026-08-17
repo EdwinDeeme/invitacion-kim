@@ -57,11 +57,19 @@ export async function createGuest(data: {
 }): Promise<Guest | null> {
   try {
     const prisma = getPrismaClient();
-    return await prisma.guest.create({
+    console.log('🚀 Creating guest with data:', data);
+    const result = await prisma.guest.create({
       data,
     });
+    console.log('✅ Guest created successfully:', result.id);
+    return result;
   } catch (error) {
-    console.error('Error creating guest:', error);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('❌ Error creating guest:', msg);
+    if (error instanceof Error) {
+      console.error('   Code:', (error as any).code);
+      console.error('   Meta:', (error as any).meta);
+    }
     return null;
   }
 }

@@ -62,9 +62,17 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Error creating guest:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : '';
+    console.error('❌ Error creating guest:', errorMessage);
+    console.error('   Stack:', errorStack);
+    console.error('   Full error object:', error);
     return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
+      { 
+        success: false, 
+        error: 'Error interno del servidor',
+        debug: errorMessage // incluye el error real en respuesta para debugging
+      },
       { status: 500 }
     );
   }
