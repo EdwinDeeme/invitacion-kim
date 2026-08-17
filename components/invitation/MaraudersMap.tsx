@@ -190,6 +190,13 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Aviso importante</p>
                 <p className="text-base md:text-lg text-[#291b10] mt-1">{eventConfig.event.additionalInfo}</p>
               </div>
+              <div className="h-px bg-[#6f512c]/35" />
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Acceso</p>
+                <p className="text-base md:text-lg text-[#291b10] mt-1">
+                  Puedes llegar facilmente en Uber o en cualquier tipo de auto.
+                </p>
+              </div>
             </div>
 
             <button className="antique-button antique-button-dark w-full mt-4" onClick={() => setActiveSection(null)}>
