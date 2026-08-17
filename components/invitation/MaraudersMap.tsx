@@ -42,7 +42,7 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
   }, [guestId]);
 
   return (
-    <div className="scene-backdrop flex items-center justify-center px-4 py-4">
+    <div className="scene-backdrop flex items-center justify-center px-4 py-3 md:py-4 overflow-hidden">
       <div className="dust-overlay" />
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
@@ -64,7 +64,7 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#4c341d]">Escritorio encantado</p>
               <h1 className="ink-title text-3xl md:text-4xl mt-1">Mapa y Artefactos</h1>
-              <p className="ink-script text-[#3a2817] mt-1 text-sm md:text-base">{guestName}, elige que objeto deseas consultar a continuacion.</p>
+              <p className="ink-script text-[#3a2817] mt-1 text-base md:text-lg">{guestName}, elige que objeto deseas consultar a continuacion.</p>
             </div>
             <HouseCrest house={house} className="w-14 h-16 md:w-16 md:h-20" />
           </div>
@@ -76,21 +76,21 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
               <ArtifactIcon kind="map" className="w-10 h-10 text-magic-gold mb-3" />
               <p className="text-[11px] uppercase tracking-[0.2em] text-magic-gold/70">Mapa</p>
               <h3 className="text-lg md:text-xl font-display text-magic-parchment mt-1">Encontrar el camino</h3>
-              <p className="text-xs md:text-sm text-magic-silver/80 mt-1">Desplegar plano encantado antes de abrir navegacion externa.</p>
+              <p className="text-sm md:text-base text-magic-silver/85 mt-1">Desplegar plano encantado antes de abrir navegacion externa.</p>
             </button>
 
             <button onClick={() => setActiveSection('rsvp')} className="artifact-choice p-4 text-left min-h-[132px]">
               <ArtifactIcon kind="letter" className="w-10 h-10 text-magic-gold mb-3" />
               <p className="text-[11px] uppercase tracking-[0.2em] text-magic-gold/70">Carta</p>
               <h3 className="text-lg md:text-xl font-display text-magic-parchment mt-1">Confirmar asistencia</h3>
-              <p className="text-xs md:text-sm text-magic-silver/80 mt-1">Registrar respuesta para la celebracion privada.</p>
+              <p className="text-sm md:text-base text-magic-silver/85 mt-1">Registrar respuesta para la celebracion privada.</p>
             </button>
 
             <button onClick={() => setActiveSection('info')} className="artifact-choice p-4 text-left min-h-[132px]">
               <ArtifactIcon kind="book" className="w-10 h-10 text-magic-gold mb-3" />
               <p className="text-[11px] uppercase tracking-[0.2em] text-magic-gold/70">Libro</p>
               <h3 className="text-lg md:text-xl font-display text-magic-parchment mt-1">Consultar informacion</h3>
-              <p className="text-xs md:text-sm text-magic-silver/80 mt-1">Ver etiqueta, notas y condiciones de la velada.</p>
+              <p className="text-sm md:text-base text-magic-silver/85 mt-1">Ver etiqueta, notas y condiciones de la velada.</p>
             </button>
 
             <div className="md:col-span-3 pt-1">
@@ -120,7 +120,7 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Destino</p>
                   <p className="text-base md:text-lg text-[#291b10] mt-1">{eventConfig.event.location}</p>
-                  <p className="text-xs md:text-sm text-[#3f2b17]/90 mt-1">{eventConfig.event.address}</p>
+                  <p className="text-sm md:text-base text-[#3f2b17]/90 mt-1">{eventConfig.event.address}</p>
                 </div>
                 <svg viewBox="0 0 240 140" className="w-full max-h-24 md:max-h-28 h-auto text-[#5b4223]" fill="none" aria-hidden="true">
                   <rect x="4" y="4" width="232" height="132" stroke="currentColor" strokeWidth="1.5" />
@@ -177,18 +177,18 @@ export default function MaraudersMap({ guestId, guestName, house, onRestart }: M
             <div className="ink-box p-4 space-y-4">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Fecha y hora</p>
-                <p className="text-sm md:text-base text-[#291b10] mt-1">Domingo 13 de Septiembre</p>
-                <p className="text-sm md:text-base text-[#291b10]">A las 3:00 p.m.</p>
+                <p className="text-base md:text-lg text-[#291b10] mt-1">Domingo 13 de Septiembre</p>
+                <p className="text-base md:text-lg text-[#291b10]">A las 3:00 p.m.</p>
               </div>
               <div className="h-px bg-[#6f512c]/35" />
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Etiqueta sugerida</p>
-                <p className="text-sm md:text-base text-[#291b10] mt-1">{eventConfig.event.dressCode}</p>
+                <p className="text-base md:text-lg text-[#291b10] mt-1">{eventConfig.event.dressCode}</p>
               </div>
               <div className="h-px bg-[#6f512c]/35" />
               <div>
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#563b1e]">Aviso importante</p>
-                <p className="text-sm md:text-base text-[#291b10] mt-1">{eventConfig.event.additionalInfo}</p>
+                <p className="text-base md:text-lg text-[#291b10] mt-1">{eventConfig.event.additionalInfo}</p>
               </div>
             </div>
 

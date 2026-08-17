@@ -150,6 +150,7 @@ export default function InvitationExperience({ guest }: InvitationExperienceProp
             >
               <MagicWandReveal
                 guestName={guest.name}
+                numberOfGuests={guest.numberOfGuests}
                 onContinue={() => handleSceneTransition('hat')}
               />
             </motion.div>

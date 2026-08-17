@@ -13,10 +13,10 @@ interface BackgroundAudioProps {
 export default function BackgroundAudio({ src }: BackgroundAudioProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const hasAppliedStartOffsetRef = useRef(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isEnabled, setIsEnabled] = useState(false);
   const [hasSourceError, setHasSourceError] = useState(false);
-  const [autoplayBootstrap, setAutoplayBootstrap] = useState(true);
+  const [autoplayBootstrap, setAutoplayBootstrap] = useState(false);
 
   const applyStartOffset = () => {
     const audio = audioRef.current;
@@ -39,12 +39,12 @@ export default function BackgroundAudio({ src }: BackgroundAudioProps) {
 
   const storageState = useMemo(() => {
     if (typeof window === 'undefined') {
-      return { muted: false, enabled: true };
+      return { muted: true, enabled: false };
     }
 
     return {
-      muted: window.localStorage.getItem(AUDIO_MUTED_KEY) === 'true',
-      enabled: window.localStorage.getItem(AUDIO_ENABLED_KEY) !== 'false',
+      muted: window.localStorage.getItem(AUDIO_MUTED_KEY) !== 'false',
+      enabled: window.localStorage.getItem(AUDIO_ENABLED_KEY) === 'true',
     };
   }, []);
 
@@ -65,7 +65,7 @@ export default function BackgroundAudio({ src }: BackgroundAudioProps) {
 
   useEffect(() => {
     setHasSourceError(false);
-    setAutoplayBootstrap(true);
+    setAutoplayBootstrap(false);
     hasAppliedStartOffsetRef.current = false;
   }, [src]);
 
@@ -76,38 +76,15 @@ export default function BackgroundAudio({ src }: BackgroundAudioProps) {
     audio.muted = isMuted;
     audio.volume = 0.38;
 
-    if (isEnabled) {
-      audio.play().catch(() => {
-        // El navegador puede bloquear autoplay; se volvera a intentar en la siguiente interaccion.
-      });
+    if (!isEnabled) {
+      audio.pause();
+      return;
     }
+
+    audio.play().catch(() => {
+      // El navegador puede bloquear autoplay; se volvera a intentar en la siguiente interaccion.
+    });
   }, [isMuted, isEnabled]);
-
-  useEffect(() => {
-    const enableAudio = () => {
-      const audio = audioRef.current;
-
-      setIsEnabled(true);
-      window.localStorage.setItem(AUDIO_ENABLED_KEY, 'true');
-
-      if (audio) {
-        applyStartOffset();
-        audio.muted = isMuted;
-        audio.volume = 0.38;
-        audio.play().catch(() => {
-          // Si el navegador retrasa la reproduccion, el efecto reactivo volvera a intentarlo.
-        });
-      }
-    };
-
-    window.addEventListener('pointerdown', enableAudio, { once: true });
-    window.addEventListener('keydown', enableAudio, { once: true });
-
-    return () => {
-      window.removeEventListener('pointerdown', enableAudio);
-      window.removeEventListener('keydown', enableAudio);
-    };
-  }, []);
 
   const toggleMute = () => {
     setAutoplayBootstrap(false);
@@ -135,7 +112,7 @@ export default function BackgroundAudio({ src }: BackgroundAudioProps) {
     window.localStorage.setItem(AUDIO_MUTED_KEY, String(nextMuted));
   };
 
-  const buttonAriaLabel = !isEnabled || isMuted ? 'Activar musica de fondo' : 'Silenciar musica de fondo';
+  const buttonAriaLabel = !isEnabled || isMuted ? 'Iniciar musica de fondo' : 'Silenciar musica de fondo';
 
   if (hasSourceError) {
     return null;
@@ -147,30 +124,11 @@ export default function BackgroundAudio({ src }: BackgroundAudioProps) {
         ref={audioRef}
         src={src}
         muted={isMuted || autoplayBootstrap}
-        autoPlay
         preload="auto"
         loop
         playsInline
         onLoadedMetadata={applyStartOffset}
         onError={() => setHasSourceError(true)}
-        onPlay={() => {
-          const audio = audioRef.current;
-
-          if (!audio || !autoplayBootstrap || isMuted) {
-            return;
-          }
-
-          window.setTimeout(() => {
-            const currentAudio = audioRef.current;
-
-            if (!currentAudio || isMuted) {
-              return;
-            }
-
-            currentAudio.muted = false;
-            setAutoplayBootstrap(false);
-          }, 140);
-        }}
         onCanPlay={() => {
           const audio = audioRef.current;
           if (!audio || !isEnabled) return;

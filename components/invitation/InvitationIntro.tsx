@@ -30,7 +30,7 @@ export default function InvitationIntro({
   };
 
   return (
-    <div className="scene-backdrop flex items-center justify-center px-4 py-4">
+    <div className="scene-backdrop flex items-center justify-center px-4 py-3 md:py-4 overflow-hidden">
       <ParticleEffect count={26} speed={0.22} size={1.4} className="opacity-45" />
       <FloatingCandles count={12} className="opacity-78" />
       <div className="dust-overlay" />
@@ -42,7 +42,7 @@ export default function InvitationIntro({
         transition={{ duration: 1.2, ease: 'easeOut' }}
       >
         <motion.p
-          className="font-display text-[11px] uppercase tracking-[0.28em] text-magic-gold/70 mb-5"
+          className="font-display text-[13px] uppercase tracking-[0.22em] text-magic-gold/70 mb-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 1 }}
@@ -59,7 +59,7 @@ export default function InvitationIntro({
           <div className="envelope-flap" />
 
           <div className="absolute inset-x-0 top-[24%] -translate-y-1/2 text-center px-6">
-            <p className="font-display text-[20px] md:text-[24px] tracking-[0.04em] text-[#2b1c11]">{recipientLine}</p>
+            <p className="font-display text-[24px] md:text-[28px] tracking-[0.04em] text-[#2b1c11]">{recipientLine}</p>
           </div>
 
           <div className="absolute inset-x-0 bottom-[36%] flex justify-center z-10">
@@ -84,7 +84,7 @@ export default function InvitationIntro({
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          <p className="text-magic-parchment/80 text-sm md:text-base">
+          <p className="text-magic-parchment/85 text-base md:text-lg">
             Un sobre sellado aguarda en la penumbra.
           </p>
           <button onClick={openEnvelope} className="antique-button">

@@ -9,7 +9,7 @@ import type { EventConfig } from '@/types';
 
 export const eventConfig: EventConfig = {
   celebrant: {
-    name: 'Kimberly Mora',
+    name: 'Kimberly',
     age: 32,
   },
   event: {
@@ -18,8 +18,8 @@ export const eventConfig: EventConfig = {
     time: '15:00', // HH:mm (24h) - 3:00 PM
     
     // UBICACION
-    location: 'Farfalla Blu PZ, Barrio el Hoyon',
-    address: 'Farfalla Blu PZ, Barrio el Hoyon', // Para Google Maps
+    location: 'Farfalla Blu PZ, Frente a Casa de Oracion, Barrio El Hoyon',
+    address: 'Farfalla Blu PZ, Frente a Casa de Oracion, Barrio El Hoyon', // Para Google Maps
     
     // DRESS CODE
     dressCode: 'Opcional: Caracterizar la casa a la que perteneces o algo de Harry Potter',
@@ -49,12 +49,12 @@ export function getFormattedDate(): string {
 
 export function getFormattedTime(): string {
   const [hours, minutes] = eventConfig.event.time.split(':');
-  const hour = parseInt(hours);
-  const minute = parseInt(minutes);
-  return new Date(2000, 0, 1, hour, minute).toLocaleTimeString('es-ES', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const hour = parseInt(hours, 10);
+  const minute = parseInt(minutes, 10);
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  const period = hour >= 12 ? 'p.m.' : 'a.m.';
+  const mm = minute.toString().padStart(2, '0');
+  return `${hour12}:${mm} ${period}`;
 }
 
 export function getFormattedDateTime(): string {

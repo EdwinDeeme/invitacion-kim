@@ -19,7 +19,7 @@ export default function HogwartsLetter({ guestName, onContinue }: HogwartsLetter
   };
 
   return (
-    <div className="scene-backdrop flex items-center justify-center px-4 py-8">
+    <div className="scene-backdrop flex items-center justify-center px-4 py-4 md:py-8">
       <div className="dust-overlay" />
 
       <motion.div
@@ -42,8 +42,8 @@ export default function HogwartsLetter({ guestName, onContinue }: HogwartsLetter
             <div className="flex justify-center mt-2 mb-1">
               <HogwartsCrest className="w-14 h-14" />
             </div>
-            <h2 className="font-display text-4xl md:text-5xl text-[#2b1d10] mt-2">Carta de Convocatoria</h2>
-            <p className="ink-script text-lg text-[#3e2a17] mt-2 leading-tight">
+            <h2 className="font-display text-5xl md:text-5xl text-[#2b1d10] mt-2">Carta de Convocatoria</h2>
+            <p className="ink-script text-xl md:text-xl text-[#3e2a17] mt-2 leading-tight">
               <span className="block">Archivo ceremonial</span>
               <span className="block">Uso exclusivo del destinatario</span>
             </p>
@@ -59,11 +59,11 @@ export default function HogwartsLetter({ guestName, onContinue }: HogwartsLetter
               loading="lazy"
               decoding="async"
             />
-            <p className="ink-script text-base md:text-lg leading-relaxed">
+            <p className="ink-script text-lg md:text-xl leading-relaxed">
               Por medio de la presente, se extiende una invitacion de caracter extraordinario para {guestName},
               con el fin de asistir a una celebracion privada preparada con reserva absoluta y espiritu festivo.
             </p>
-            <p className="text-sm uppercase tracking-[0.18em] text-[#4a351f]">
+            <p className="text-base uppercase tracking-[0.12em] text-[#4a351f]">
               Mantener la sorpresa hasta el gran momento.
             </p>
           </div>

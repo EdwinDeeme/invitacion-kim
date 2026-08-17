@@ -107,6 +107,7 @@ input, textarea, select {
   position: relative;
   min-height: 100dvh;
   overflow: hidden;
+  overflow-x: hidden;
   background:
     radial-gradient(80% 60% at 50% 15%, rgba(185, 154, 90, 0.08), transparent 65%),
     radial-gradient(80% 50% at 60% 115%, rgba(75, 21, 24, 0.18), transparent 70%),

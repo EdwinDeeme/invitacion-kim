@@ -8,20 +8,26 @@ import { ArcaneSigil, ArtifactIcon } from './ArcaneIcons';
 
 interface MagicWandRevealProps {
   guestName: string;
+  numberOfGuests: number;
   onContinue: () => void;
 }
 
-export default function MagicWandReveal({ guestName, onContinue }: MagicWandRevealProps) {
+export default function MagicWandReveal({ guestName, numberOfGuests, onContinue }: MagicWandRevealProps) {
   const [lineIndex, setLineIndex] = useState(0);
+  const isSingular = numberOfGuests === 1;
 
   const lines = useMemo(
     () => [
-      `Estimados ${guestName}:`,
-      'Tenemos el enorme placer de informarles que han sido convocados a una celebracion reservada.',
+      `${isSingular ? 'Estimado' : 'Estimados'} ${guestName}:`,
+      isSingular
+        ? 'Tengo el enorme placer de informarte que has sido convocado a una celebracion reservada.'
+        : 'Tenemos el enorme placer de informarles que han sido convocados a una celebracion reservada.',
       `${eventConfig.celebrant.name}`,
-      'La invitacion comienza a escribirse sola ante tus ojos.',
+      isSingular
+        ? 'Tu invitacion ha sido registrada para este gran encuentro.'
+        : 'Su invitacion ha sido registrada para este gran encuentro.',
     ],
-    [guestName]
+    [guestName, isSingular]
   );
 
   useEffect(() => {
@@ -35,7 +41,7 @@ export default function MagicWandReveal({ guestName, onContinue }: MagicWandReve
   }, [lineIndex, lines.length, onContinue]);
 
   return (
-    <div className="scene-backdrop flex items-center justify-center px-4 py-4">
+    <div className="scene-backdrop flex items-center justify-center px-4 py-3 md:py-4">
       <ParticleEffect count={22} speed={0.2} size={1.2} className="opacity-45" />
       <div className="dust-overlay" />
 
@@ -77,7 +83,7 @@ export default function MagicWandReveal({ guestName, onContinue }: MagicWandReve
                   initial={{ opacity: 0, y: 10, filter: 'blur(2px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   transition={{ duration: 0.65 }}
-                  className={i === 2 ? 'font-display text-3xl md:text-4xl ink-title' : 'ink-script text-base md:text-lg leading-relaxed'}
+                  className={i === 2 ? 'font-display text-4xl md:text-5xl ink-title' : 'ink-script text-lg md:text-xl leading-relaxed'}
                 >
                   {line}
                 </motion.p>
@@ -98,7 +104,7 @@ export default function MagicWandReveal({ guestName, onContinue }: MagicWandReve
                     <ArtifactIcon kind="info" className="w-5 h-5" />
                     Fecha y hora
                   </div>
-                  <p className="text-sm md:text-base">{getFormattedDateTime()}</p>
+                  <p className="text-base md:text-lg">{getFormattedDateTime()}</p>
                 </div>
 
                 <div className="ink-box p-4">
@@ -106,11 +112,11 @@ export default function MagicWandReveal({ guestName, onContinue }: MagicWandReve
                     <ArtifactIcon kind="location" className="w-5 h-5" />
                     Lugar
                   </div>
-                  <p className="text-sm md:text-base">{eventConfig.event.location}</p>
+                  <p className="text-base md:text-lg">{eventConfig.event.location}</p>
                 </div>
               </div>
 
-              <p className="text-xs md:text-sm uppercase tracking-[0.13em] text-[#4d341f]">{eventConfig.event.additionalInfo}</p>
+              <p className="text-sm md:text-base uppercase tracking-[0.08em] text-[#4d341f]">{eventConfig.event.additionalInfo}</p>
 
               <div className="pt-1">
                 <button onClick={onContinue} className="antique-button flex items-center justify-center leading-none">

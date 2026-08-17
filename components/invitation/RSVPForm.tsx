@@ -67,7 +67,7 @@ export default function RSVPForm({
           <ArtifactIcon kind="letter" className="w-8 h-8 text-[#4b3118]" />
         </div>
         <h2 className="ink-title text-2xl md:text-3xl">Registro de asistencia</h2>
-        <p className="ink-script text-[#3a2816] text-sm md:text-base mt-1">Confirma si podremos contar con tu presencia en la celebracion.</p>
+        <p className="ink-script text-[#3a2816] text-base md:text-lg mt-1">Confirma si podremos contar con tu presencia en la celebracion.</p>
       </div>
 
       <div className="grid gap-3">
@@ -82,7 +82,7 @@ export default function RSVPForm({
         >
           <p className="text-[11px] uppercase tracking-[0.2em] text-[#5b3f22]">Asistencia</p>
           <p className="font-display text-lg md:text-xl text-[#27190f] mt-1">Si, asistire</p>
-          <p className="text-xs md:text-sm text-[#402d1a] mt-1">Reservare este dia para la velada.</p>
+          <p className="text-sm md:text-base text-[#402d1a] mt-1">Reservare este dia para la velada.</p>
         </motion.button>
 
         <motion.button
@@ -96,7 +96,7 @@ export default function RSVPForm({
         >
           <p className="text-[11px] uppercase tracking-[0.2em] text-[#5b3f22]">Asistencia</p>
           <p className="font-display text-lg md:text-xl text-[#27190f] mt-1">No podre asistir</p>
-          <p className="text-xs md:text-sm text-[#402d1a] mt-1">No me sera posible acudir en esta ocasion.</p>
+          <p className="text-sm md:text-base text-[#402d1a] mt-1">No me sera posible acudir en esta ocasion.</p>
         </motion.button>
       </div>
 
@@ -118,7 +118,7 @@ export default function RSVPForm({
               Mas
             </button>
           </div>
-          <p className="text-xs md:text-sm text-[#3f2b18]">Total de personas registradas: {1 + extraGuests}</p>
+          <p className="text-sm md:text-base text-[#3f2b18]">Total de personas registradas: {1 + extraGuests}</p>
         </motion.div>
       )}
 
